@@ -1,0 +1,291 @@
+# install.packages("rgl")
+require(rgl)
+demo(rgl)
+
+#plot(x,y) # X-Y plotting
+#Example1: Simple scatter plot
+Ex1 <- read.csv("./Data/R Graphics.csv")
+irri_yes <- subset(Ex1, irrigation == "yes")
+irri_no <- subset(Ex1, irrigation == "no")
+plot(yield~conc,data = irri_yes)
+
+#Example2: Adjustments for axes and title
+#(a)Adding axes labels and title
+plot(yield ~ conc, 
+        data = irri_yes, 
+        xlab = "Concentration", 
+        ylab = "Yield",
+        main = "Yield Vs Concentration")
+
+#(b)Adjusting the annotations size
+plot(yield ~ conc, 
+        data = irri_yes,
+        xlab = "Concentration",
+        ylab = "Yield",
+        main = "Yield Vs Concentration",
+        cex.axis = 2)
+
+#(c)Adjusting the size of axes labels
+plot(yield ~ conc,
+       data = irri_yes,
+       xlab = "Concentration",
+       ylab = "Yield",
+       main = "Yield Vs Concentration",
+       cex.axis = 2,
+       cex.lab = 2)
+
+#(d)Adjusting the size of plot title
+plot(yield ~ conc,
+     data = irri_yes,
+     xlab = "Concentration",
+     ylab = "Yield",
+     main = "Yield Vs Concentration",
+     cex.axis = 2,
+     cex.lab = 2,
+     cex.main = 2)
+
+#Example3: Adjustments for plotting characters
+#(a)Choosing symbols, colors and size of the plot
+plot(yield ~ conc,
+     data = irri_yes,
+     xlab = "Concentration",
+     ylab = "Yield",
+     main = "Yield Vs Concentration",
+     cex.axis = 2,
+     cex.lab = 2,
+     cex.main = 2,
+     pch = 18,
+     col = "red",
+     cex = 1.5)
+#(b)Plotting type is line. By default it is point type
+plot(yield ~ conc,
+     data = irri_yes,
+     xlab = "Concentration",
+     ylab = "Yield",
+     main = "Yield Vs Concentration",
+     cex.axis = 2,
+     cex.lab = 2,
+     cex.main = 2,
+     pch = 18,
+     col = "red",
+     cex = 1.5,
+     type = "l")
+
+#(c)Changing the line type and line color
+plot(yield ~ conc,
+     data = irri_yes,
+     xlab = "Concentration",
+     ylab = "Yield",
+     main = "Yield Vs Concentration",
+     cex.axis = 2,
+     cex.lab = 2,
+     cex.main = 2,
+     col = "blue",
+     cex = 1.5,
+     type = "l",
+     lty = 2)
+
+#Example 4: Multiple scatterplot in one plot
+#(a)Choosing symbols, colors and size of the plot for multiple plots
+col.vec <- rep(c("red","green"),c(12,12))
+pch.vec <- rep(c(17,20),c(12,12))
+plot(yield ~ conc,
+     data = Ex1,
+     xlab = "Concentration",
+     ylab = "Yield",
+     main = "Yield Vs Concentration",
+     cex.axis = 2,
+     cex.lab = 2,
+     cex.main = 2,
+     pch = pch.vec,
+     col = col.vec,
+     cex = 1.5)
+
+## Example 5: Low level commands
+#(a)Adding text to existing plot
+col.vec <- rep(c("red","black"),6)
+pch.vec <- rep(c(17,20),6)
+entry.name <- paste("con",rep(1:6,each=2),sep="")
+plot(yield~conc, 
+     data = irri_yes,
+     xlab = "Concentration",
+     ylab = "Yield",
+     main = "Yied vs Concentration",
+     pch = pch.vec,
+     col = col.vec,
+     cex = 1.5)
+
+text(irri_yes$conc,
+     irri_yes$yield,
+     labels = entry.name,
+     col = col.vec,
+     cex = 1.3)
+
+#Better way:
+  # pos :Values of 1, 2, 3 and 4, below, left of, above right.
+  # offset :offset of the label
+plot(yield~conc, 
+     data = irri_yes,
+     xlab = "Concentration",
+     ylab = "Yield",
+     main = "Yied vs Concentration",
+     pch = pch.vec,
+     col = col.vec,
+     cex = 1.5)
+
+text(irri_yes$conc,
+     irri_yes$yield,
+     labels = entry.name,
+     col = col.vec,
+     cex = 1,
+     pos = 2,
+     offset = .3) 
+
+#(b)Adding lines to existing plot
+plot(yield~conc,
+     data = irri_yes, 
+     xlab = "Concentration",
+     ylab = "Yield",
+     type = "l",
+     main = "Yied vs Concentration")
+
+lines(irri_no$conc,irri_no$yield,col = "red")
+
+#(c)Adding point to existing plot
+plot(yield~conc, 
+     data = irri_yes,
+     xlab = "Concentration",
+     ylab = "Yield",
+     main = "Yied vs Concentration",
+     pch = pch.vec,
+     col = col.vec,cex = 1.5)
+
+points(mean(irri_yes$yield),col = "blue",pch = 16)
+
+#(d)Add a reference line
+plot(yield~conc, 
+     data = irri_yes,
+     xlab = "Concentration",
+     ylab = "Yield",
+     main = "Yied vs Concentration",
+     pch = pch.vec,
+     col = col.vec,
+     cex = 1.5)
+#Add line at grand mean for irrigation = yes 
+abline(h = mean(irri_yes$yield))
+abline(v = 0.6)
+
+#(e)Adding legends to the plot
+plot(yield~conc, 
+     data = irri_yes,
+     xlab = "Concentration",
+     ylab = "Yield",
+     main = "Yied vs Concentration",
+     pch = pch.vec,
+     col = col.vec,
+     cex = 1.5)
+
+legend("topleft",
+       legend = c("Rep1","Rep2"),
+       pch = c(17,20),
+       col = c("black","red"))
+
+#hist(x)#Creating Histogram
+#Example1: A Simple Histogram
+hist(irri_yes$yield)
+
+#Example2: Colored Histogram
+hist(irri_yes$yield, 
+     col = "green", 
+     xlab = "Yield")
+
+#Example3: Add rug to a plot
+hist(irri_yes$yield)
+rug(irri_yes$yield)
+
+# boxplot(x) # Creating Boxplot 
+#Example1: A Single Boxplot
+boxplot(irri_yes$yield)
+
+#Example2: Several boxplots in one plot
+boxplot(yield ~ irrigation, 
+        data = Ex1, 
+        col = c("red","blue"))
+  
+#Example3: Horizontal boxplots with axes labels
+boxplot(yield ~ irrigation, 
+        data = Ex1, 
+        col = c("red","blue"),
+        horizontal = T,
+        xlab = "Yield(kg)", 
+        ylab = "Irrigation")
+
+# barplot(x) # Creating barplot
+#Example1: Simple Barplot
+Country <- c("India","Mali","China","Nigeria","Bangladesh")
+TotYield <- c(38585,10142,50204,18542,24582)
+barplot(TotYield, names.arg = Country)
+
+#Example2: Stacked Bar Plot
+Loc1 <- c(11.7,8.7,15.4,8.47)
+Loc2 <- c(18.1,11.7,24.3,13.6)
+Loc3 <- c(26.9,20.3,37,19.3)
+GLMean <- data.frame(Loc1,Loc2,Loc3)
+rownames(GLMean) <- paste("Gen",1:4)
+Ex2 <- as.matrix(GLMean)
+Ex2
+
+barplot(Ex2, 
+        main = "Yield Distribution by Location and Entry",
+        xlab = "Location",
+        ylab = "Yield(kg)", 
+        col = c("darkblue","red","green","yellow"))
+
+#Example3: Grouped Bar Plot
+barplot(Ex2, 
+        main = "Yield Distribution by Location and Entry",
+        xlab = "Location",
+        ylab = "Yield(kg)", 
+        col = c("darkblue","red","green","yellow"),
+        beside = T)
+
+#par(): Multiple Plot Figures
+par(mfrow = c(2,3))
+boxplot(irri_yes$yield,col = "red")
+hist(irri_yes$yield,col = "red")
+plot(yield~conc,data = irri_yes,col = "red")
+boxplot(irri_no$yield,col = "green")
+hist(irri_no$yield,col = "green")
+plot(yield~conc,data = irri_no,col = "green")
+
+
+par(mfcol = c(2,3))
+boxplot(irri_yes$yield,col = "red")
+hist(irri_yes$yield,col = "red")
+plot(yield~conc,data = irri_yes,col = "red")
+boxplot(irri_no$yield,col = "green")
+hist(irri_no$yield,col = "green")
+plot(yield~conc,data = irri_no,col = "green")
+
+
+#Saving Graphics to various formats
+jpeg(file = "RGraphics.jpg")
+par(mfcol = c(2,3))
+boxplot(irri_yes$yield,col = "red")
+hist(irri_yes$yield,col = "red")
+plot(yield~conc,data = irri_yes,col = "red")
+boxplot(irri_no$yield,col = "green")
+hist(irri_no$yield,col = "green")
+plot(yield~conc,data = irri_no,col = "green")
+dev.off()
+
+pdf(file = "Rgraphics.pdf")
+par(mfcol = c(2,3))
+boxplot(irri_yes$yield,col = "red")
+hist(irri_yes$yield,col = "red")
+plot(yield~conc,data = irri_yes,col = "red")
+boxplot(irri_no$yield,col = "green")
+hist(irri_no$yield,col = "green")
+plot(yield~conc,data = irri_no,col = "green")
+dev.off()
+
